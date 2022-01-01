@@ -1,6 +1,12 @@
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMovies, IGetMovies } from "../api";
 import { makeImagePath } from "../utility";
@@ -58,6 +64,7 @@ const Box = styled(motion.div)<{ bgphoto: string }>`
   height: 200px;
   display: flex;
   align-items: end;
+  cursor: pointer;
   &:first-child {
     transform-origin: center left;
   }
@@ -74,6 +81,15 @@ const Info = styled(motion.div)`
   align-items: center;
   width: 100%;
   height: 20%;
+  opacity: 0;
+`;
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
 `;
 
@@ -106,6 +122,11 @@ function Home() {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
 
+  const navigate = useNavigate();
+  const bigMovieMatch = useMatch("/movies/:movieId");
+
+  const { scrollY } = useViewportScroll();
+
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
   };
@@ -128,6 +149,14 @@ function Home() {
       }
     });
     return copy;
+  };
+
+  const onBoxClick = (movieId: number) => {
+    navigate(`/movies/${movieId}`);
+  };
+
+  const onOverlayClick = () => {
+    navigate(-1);
   };
 
   return (
@@ -160,6 +189,10 @@ function Home() {
                       .slice(offset * index, offset * index + offset)
                       .map((movie) => (
                         <Box
+                          layoutId={movie.id + ""}
+                          onClick={() => {
+                            onBoxClick(movie.id);
+                          }}
                           variants={boxVariants}
                           initial="normal"
                           whileHover="hover"
@@ -175,6 +208,30 @@ function Home() {
                 </Row>
               </AnimatePresence>
             </Slider>
+            <AnimatePresence>
+              {bigMovieMatch ? (
+                <>
+                  <Overlay
+                    onClick={onOverlayClick}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                  <motion.div
+                    layoutId={bigMovieMatch.params.movieId}
+                    style={{
+                      position: "absolute",
+                      width: "40vw",
+                      height: "80vh",
+                      backgroundColor: "red",
+                      top: scrollY,
+                      left: 0,
+                      right: 0,
+                      margin: "0 auto",
+                    }}
+                  />
+                </>
+              ) : null}
+            </AnimatePresence>
           </>
         )}
       </Wrapper>

@@ -117,6 +117,7 @@ function Header() {
   //Match
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("/tv");
+  const movieMatch = useMatch("/movies");
   //navigation
   const navigate = useNavigate();
   //Animation
@@ -167,6 +168,11 @@ function Header() {
         <Items>
           <Item>
             <Link to="/">Home {homeMatch && <Circle layoutId="circle" />}</Link>
+          </Item>
+          <Item>
+            <Link to="/movies">
+              Movies {movieMatch && <Circle layoutId="circle" />}
+            </Link>
           </Item>
           <Item>
             <Link to="/tv">

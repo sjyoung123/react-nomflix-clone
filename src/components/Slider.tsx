@@ -2,7 +2,7 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { IGetMovies } from "../api";
+import { IGetDatas } from "../api";
 import { offset } from "../Routes/Home";
 import { makeImagePath } from "../utility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -85,14 +85,15 @@ const boxVariants: Variants = {
 
 //interface
 interface ISlider {
-  data?: IGetMovies;
+  data?: IGetDatas;
+  detail: string;
 }
 
 const infoVariants: Variants = {
   hover: { opacity: 1, transition: { delay: 0.3, type: "tween" } },
 };
 
-function Slider({ data }: ISlider) {
+function Slider({ data, detail }: ISlider) {
   const [leaving, setLeaving] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -102,26 +103,26 @@ function Slider({ data }: ISlider) {
     setLeaving((prev) => !prev);
   };
 
-  const onlyBackdropPath = (movies: IGetMovies) => {
-    const copy = { ...movies };
-    copy.results.forEach((movie, index) => {
-      if (movie.backdrop_path === null) {
+  const onlyBackdropPath = (datas: IGetDatas) => {
+    const copy = { ...datas };
+    copy.results.forEach((data, index) => {
+      if (data.backdrop_path === null) {
         return copy.results.splice(index, 1);
       }
     });
     return copy;
   };
 
-  const onBoxClick = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
+  const onBoxClick = (detailId: number) => {
+    navigate(`/${detail}/${detailId}`);
   };
 
   const increaseIndex = () => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
-      const totalMovies = data.results.length - 1;
-      const maxIndex = Math.floor(totalMovies / offset) - 1; // -1 -> Banner
+      const totalData = data.results.length - 1;
+      const maxIndex = Math.floor(totalData / offset) - 1; // -1 -> Banner
       setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }
   };
@@ -145,21 +146,21 @@ function Slider({ data }: ISlider) {
               { ...onlyBackdropPath(data) }.results
                 .slice(1)
                 .slice(offset * index, offset * index + offset)
-                .map((movie) => (
+                .map((content) => (
                   <Box
-                    layoutId={movie.id + ""}
+                    layoutId={content.id + ""}
                     onClick={() => {
-                      onBoxClick(movie.id);
+                      onBoxClick(content.id);
                     }}
                     variants={boxVariants}
                     initial="normal"
                     whileHover="hover"
                     transition={{ type: "tween" }}
-                    key={movie.id}
-                    bgphoto={makeImagePath(movie.backdrop_path, "w400")}
+                    key={content.id}
+                    bgphoto={makeImagePath(content.backdrop_path, "w400")}
                   >
                     <Info variants={infoVariants}>
-                      <h4>{movie.title}</h4>
+                      <h4>{content.title}</h4>
                     </Info>
                   </Box>
                 ))}

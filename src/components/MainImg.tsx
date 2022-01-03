@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IGetMovies } from "../api";
+import { IGetDatas } from "../api";
 import { makeImagePath } from "../utility";
 
 const Banner = styled.div<{ bgphoto: string }>`
@@ -24,7 +24,7 @@ const Overview = styled.p`
 `;
 
 interface IMain {
-  data?: IGetMovies;
+  data?: IGetDatas;
 }
 
 function MainImg({ data }: IMain) {

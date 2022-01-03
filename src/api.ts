@@ -2,7 +2,7 @@ const API_KEY = "97cedad43bd4ca832c9ecd9de8a27f3c";
 
 const BASE_URL = "https://api.themoviedb.org";
 
-interface IMovie {
+interface IData {
   id: number;
   backdrop_path: string;
   poster_path: string;
@@ -10,13 +10,13 @@ interface IMovie {
   overview: string;
 }
 
-export interface IGetMovies {
+export interface IGetDatas {
   dates: {
     maximum: string;
     minimum: string;
   };
   page: number;
-  results: IMovie[];
+  results: IData[];
   total_pages: number;
   total_results: number;
 }

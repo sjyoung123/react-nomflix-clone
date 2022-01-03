@@ -3,13 +3,12 @@ import {
   motion,
   MotionValue,
   useViewportScroll,
-  Variants,
 } from "framer-motion";
-import { useState } from "react";
 import { useQuery } from "react-query";
 import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMovies, IGetMovies } from "../api";
+import MainImg from "../components/MainImg";
 import Slider from "../components/Slider";
 import { makeImagePath } from "../utility";
 
@@ -23,27 +22,6 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Banner = styled.div<{ bgphoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)),
-    url(${(props) => props.bgphoto});
-  background-size: cover;
-`;
-
-const Title = styled.h2`
-  font-size: 58px;
-  margin-bottom: 15px;
-`;
-
-const Overview = styled.p`
-  font-size: 24px;
-  width: 50%;
 `;
 
 const Overlay = styled(motion.div)`
@@ -120,12 +98,7 @@ function Home() {
           <Loader>Loading...</Loader>
         ) : (
           <>
-            <Banner
-              bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}
-            >
-              <Title>{data?.results[0].title}</Title>
-              <Overview>{data?.results[0].overview}</Overview>
-            </Banner>
+            <MainImg data={data} />
             <Slider data={data} />
             <AnimatePresence>
               {bigMovieMatch ? (

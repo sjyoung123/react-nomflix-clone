@@ -1,5 +1,4 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { relative } from "path/posix";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -10,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 //styled-components
-const Slider_ = styled.div`
+const SliderSC = styled.div`
   position: relative;
   top: -220px;
 `;
@@ -129,7 +128,7 @@ function Slider({ data }: ISlider) {
 
   return (
     <>
-      <Slider_>
+      <SliderSC>
         <Next>
           <FontAwesomeIcon onClick={increaseIndex} icon={faChevronRight} />
         </Next>
@@ -166,7 +165,7 @@ function Slider({ data }: ISlider) {
                 ))}
           </Row>
         </AnimatePresence>
-      </Slider_>
+      </SliderSC>
     </>
   );
 }

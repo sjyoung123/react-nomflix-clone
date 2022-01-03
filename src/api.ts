@@ -24,7 +24,7 @@ export interface IGetMovies {
 export const getMovies = async () => {
   return await (
     await fetch(
-      `${BASE_URL}/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=kr`
+      `${BASE_URL}/3/movie/now_playing?api_key=${API_KEY}&language=ko&page=1&region=kr`
     )
   ).json();
 };

@@ -41,7 +41,7 @@ const Title = styled.h2`
 `;
 
 const Overview = styled.p`
-  font-size: 30px;
+  font-size: 24px;
   width: 50%;
 `;
 
@@ -200,8 +200,6 @@ function Home() {
     data?.results.find(
       (movie) => String(movie.id) === bigMovieMatch.params.movieId
     );
-
-  console.log(clickedDetail);
 
   return (
     <>

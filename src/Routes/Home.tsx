@@ -1,6 +1,7 @@
 import {
   AnimatePresence,
   motion,
+  MotionValue,
   useViewportScroll,
   Variants,
 } from "framer-motion";
@@ -11,6 +12,7 @@ import styled from "styled-components";
 import { getMovies, IGetMovies } from "../api";
 import { makeImagePath } from "../utility";
 
+//styeld-components
 const Wrapper = styled.div`
   background: black;
 `;
@@ -93,6 +95,40 @@ const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
+const MovieDetailContainer = styled(motion.div)<{
+  scrolly: MotionValue<number>;
+}>`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+  background-color: ${(props) => props.theme.black.lighter};
+  top: ${(props) => props.scrolly.get() + 50}px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+`;
+
+const DetailCover = styled.div`
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  height: 65%;
+`;
+
+const DetailTitle = styled.h2`
+  font-size: 28px;
+  position: relative;
+  padding: 10px;
+  top: -50px;
+`;
+
+const DetailOverview = styled.p`
+  padding: 10px;
+  position: relative;
+  top: -50px;
+`;
+
+//Variants
 const rowVariants: Variants = {
   hidden: { x: window.innerWidth },
   visible: { x: 0 },
@@ -159,6 +195,14 @@ function Home() {
     navigate(-1);
   };
 
+  const clickedDetail =
+    bigMovieMatch?.params.movieId &&
+    data?.results.find(
+      (movie) => String(movie.id) === bigMovieMatch.params.movieId
+    );
+
+  console.log(clickedDetail);
+
   return (
     <>
       <Wrapper>
@@ -216,19 +260,27 @@ function Home() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   />
-                  <motion.div
+                  <MovieDetailContainer
                     layoutId={bigMovieMatch.params.movieId}
-                    style={{
-                      position: "absolute",
-                      width: "40vw",
-                      height: "80vh",
-                      backgroundColor: "red",
-                      top: scrollY,
-                      left: 0,
-                      right: 0,
-                      margin: "0 auto",
-                    }}
-                  />
+                    scrolly={scrollY}
+                  >
+                    {clickedDetail && (
+                      <>
+                        <DetailCover
+                          style={{
+                            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(${makeImagePath(
+                              clickedDetail.backdrop_path,
+                              "w500"
+                            )})`,
+                          }}
+                        />
+                        <DetailTitle>{clickedDetail.title}</DetailTitle>
+                        <DetailOverview>
+                          {clickedDetail.overview}
+                        </DetailOverview>
+                      </>
+                    )}
+                  </MovieDetailContainer>
                 </>
               ) : null}
             </AnimatePresence>

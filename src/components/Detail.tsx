@@ -19,9 +19,7 @@ const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
-const DetailContainer = styled(motion.div)<{
-  scrolly: MotionValue<number>;
-}>`
+const DetailContainer = styled(motion.div)<{ scrolly: MotionValue<number> }>`
   position: absolute;
   width: 40vw;
   height: 80vh;
@@ -30,6 +28,7 @@ const DetailContainer = styled(motion.div)<{
   left: 0;
   right: 0;
   margin: 0 auto;
+  overflow-y: scroll;
 `;
 
 const DetailCover = styled.div`
@@ -50,6 +49,7 @@ const DetailOverview = styled.p`
   padding: 10px;
   position: relative;
   top: -50px;
+  line-height: 150%;
 `;
 
 //interface
@@ -71,6 +71,7 @@ function Detail({ data, detail }: IDetail) {
   const clickedDetail =
     detailMatch?.params.id &&
     data?.results.find((detail) => String(detail.id) === detailMatch.params.id);
+
   return (
     <>
       <AnimatePresence>
@@ -92,7 +93,12 @@ function Detail({ data, detail }: IDetail) {
                       )})`,
                     }}
                   />
-                  <DetailTitle>{clickedDetail.title}</DetailTitle>
+                  {(clickedDetail.title && (
+                    <DetailTitle>{clickedDetail.title}</DetailTitle>
+                  )) ||
+                    (clickedDetail.name && (
+                      <DetailTitle>{clickedDetail.name}</DetailTitle>
+                    ))}
                   <DetailOverview>{clickedDetail.overview}</DetailOverview>
                 </>
               )}

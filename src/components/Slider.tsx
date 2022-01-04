@@ -160,7 +160,8 @@ function Slider({ data, detail }: ISlider) {
                     bgphoto={makeImagePath(content.backdrop_path, "w400")}
                   >
                     <Info variants={infoVariants}>
-                      <h4>{content.title}</h4>
+                      {(content.title && <h4>{content.title}</h4>) ||
+                        (content.name && <h4>{content.name}</h4>)}
                     </Info>
                   </Box>
                 ))}

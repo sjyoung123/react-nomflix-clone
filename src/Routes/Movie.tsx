@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getMovies, IGetDatas } from "../api";
 import Detail from "../components/Detail";
+import Loading from "../components/Loading";
 import MainImg from "../components/MainImg";
 import Slider from "../components/Slider";
 
@@ -10,15 +11,8 @@ export const Wrapper = styled.div`
   background: black;
 `;
 
-export const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 function Movie() {
-  const { data, isLoading } = useQuery<IGetDatas>(
+  const { data: nowPlaying, isLoading } = useQuery<IGetDatas>(
     ["movies", "nowPlaying"],
     getMovies
   );
@@ -27,12 +21,12 @@ function Movie() {
     <>
       <Wrapper>
         {isLoading ? (
-          <Loader>Loading...</Loader>
+          <Loading />
         ) : (
           <>
-            <MainImg data={data} />
-            <Slider data={data} detail="movies" />
-            <Detail data={data} detail="movies" />
+            <MainImg data={nowPlaying} />
+            <Slider data={nowPlaying} detail="movies" />
+            <Detail data={nowPlaying} detail="movies" />
           </>
         )}
       </Wrapper>

@@ -19,8 +19,9 @@ const Title = styled.h2`
 `;
 
 const Overview = styled.p`
-  font-size: 24px;
+  font-size: 22px;
   width: 50%;
+  line-height: 120%;
 `;
 
 interface IMain {
@@ -31,7 +32,8 @@ function MainImg({ data }: IMain) {
   return (
     <>
       <Banner bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}>
-        <Title>{data?.results[0].title}</Title>
+        {(data?.results[0].title && <Title>{data?.results[0].title}</Title>) ||
+          (data?.results[0].name && <Title>{data?.results[0].name}</Title>)}
         <Overview>{data?.results[0].overview}</Overview>
       </Banner>
     </>

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IGetDatas } from "../api";
@@ -7,6 +7,8 @@ import { offset } from "../Routes/Home";
 import { makeImagePath } from "../utility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { useSetRecoilState } from "recoil";
+import { sliderDetailState } from "../atom";
 
 //styled-components
 const SliderSC = styled.div`
@@ -21,6 +23,8 @@ const Row = styled(motion.div)`
   position: absolute;
   width: 100%;
 `;
+
+const Kind = styled.h1``;
 
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
@@ -86,16 +90,18 @@ const boxVariants: Variants = {
 //interface
 interface ISlider {
   data?: IGetDatas;
-  detail: string;
+  detail?: string;
+  kind?: string;
 }
 
 const infoVariants: Variants = {
   hover: { opacity: 1, transition: { delay: 0.3, type: "tween" } },
 };
 
-function Slider({ data, detail }: ISlider) {
+function Slider({ data, detail, kind }: ISlider) {
   const [leaving, setLeaving] = useState(false);
   const [index, setIndex] = useState(0);
+  const setSliderDetail = useSetRecoilState(sliderDetailState);
 
   const navigate = useNavigate();
 
@@ -114,7 +120,8 @@ function Slider({ data, detail }: ISlider) {
   };
 
   const onBoxClick = (detailId: number) => {
-    navigate(`/${detail}/${detailId}`);
+    navigate(detail ? `/${detail}/${detailId}` : `/${detailId}`);
+    setSliderDetail(kind as any);
   };
 
   const increaseIndex = () => {
@@ -130,6 +137,7 @@ function Slider({ data, detail }: ISlider) {
   return (
     <>
       <SliderSC>
+        <Kind>{kind}</Kind>
         <Next>
           <FontAwesomeIcon onClick={increaseIndex} icon={faChevronRight} />
         </Next>

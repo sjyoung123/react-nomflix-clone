@@ -55,14 +55,14 @@ const DetailOverview = styled.p`
 //interface
 interface IDetail {
   data?: IGetDatas;
-  detail: string;
+  detail?: string;
 }
 
 function Detail({ data, detail }: IDetail) {
   const { scrollY } = useViewportScroll();
 
   const navigate = useNavigate();
-  const detailMatch = useMatch(`/${detail}/:id`);
+  const detailMatch = useMatch(detail ? `/${detail}/:id` : "/:id");
 
   const onOverlayClick = () => {
     navigate(-1);

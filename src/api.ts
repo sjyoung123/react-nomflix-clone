@@ -21,7 +21,7 @@ export interface IGetDatas {
   total_pages: number;
   total_results: number;
 }
-
+//movie
 export const getMovies = async () => {
   return await (
     await fetch(
@@ -30,10 +30,43 @@ export const getMovies = async () => {
   ).json();
 };
 
+export const ratedMovies = async () => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/movie/top_rated?api_key=${API_KEY}&language=ko&page=1&region=kr`
+    )
+  ).json();
+};
+
+export const upcomingMovies = async () => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/movie/upcoming?api_key=${API_KEY}&language=ko&page=1&region=kr`
+    )
+  ).json();
+};
+
+//TV shows
 export const getTvShows = async () => {
   return await (
     await fetch(
       ` ${BASE_URL}/3/tv/popular?api_key=${API_KEY}&language=ko&page=1`
+    )
+  ).json();
+};
+
+export const airingToday = async () => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/tv/airing_today?api_key=${API_KEY}&language=ko&page=1`
+    )
+  ).json();
+};
+
+export const ratedTv = async () => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/tv/top_rated?api_key=${API_KEY}&language=ko&page=1`
     )
   ).json();
 };

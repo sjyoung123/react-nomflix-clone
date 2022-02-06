@@ -70,3 +70,20 @@ export const ratedTv = async () => {
     )
   ).json();
 };
+
+//search
+export const searchMovie = async (keyword: string | null) => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/search/movie?api_key=${API_KEY}&language=ko&query=${keyword}&page=1&include_adult=false`
+    )
+  ).json();
+};
+
+export const searchTv = async (keyword: string | null) => {
+  return await (
+    await fetch(
+      `${BASE_URL}/3/search/tv?api_key=${API_KEY}&language=ko&page=1&query=${keyword}&include_adult=false`
+    )
+  ).json();
+};

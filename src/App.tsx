@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./Routes/Home";
@@ -15,6 +14,7 @@ function App() {
           <Route path="/tv" element={<Tv />} />
           <Route path="/tv/:id" element={<Tv />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/search/:id" element={<Search />} />
           <Route path="/:id" element={<Home />} />
         </Routes>
       </Router>

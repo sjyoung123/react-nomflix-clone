@@ -39,11 +39,19 @@ function Search() {
       ) : (
         <>
           <Wrapper style={{ marginTop: 350 }}>
-            <Slider data={movieData} kind="SEARCH FOR MOVIE" detail="search" />
-            <Slider data={tvData} kind="SEARCH FOR TV" detail="search" />
+            <Slider
+              data={movieData}
+              kind={`${keyword}로 찾은 영화`}
+              detail="search"
+            />
+            <Slider
+              data={tvData}
+              kind={`${keyword}로 찾은 TV쇼`}
+              detail="search"
+            />
           </Wrapper>
           <Detail
-            data={kind === "SEARCH FOR MOVIE" ? movieData : tvData}
+            data={kind === `${keyword}로 찾은 영화` ? movieData : tvData}
             detail="search"
           />
         </>

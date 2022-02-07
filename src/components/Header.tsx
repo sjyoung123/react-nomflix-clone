@@ -202,6 +202,7 @@ function Header() {
             animate={inputAnimation}
             transition={{ type: "linear" }}
             placeholder="Search for movie or Tv show"
+            autoComplete="off"
           />
         </Search>
       </Col>

@@ -24,7 +24,9 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Kind = styled.h1``;
+const Kind = styled.h1`
+  margin-bottom: 10px;
+`;
 
 const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
@@ -68,6 +70,24 @@ const Next = styled.div`
   svg {
     cursor: pointer;
     font-size: 28px;
+  }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Rated = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    height: 15px;
+    width: 15px;
+    margin-left: 5px;
+    color: gold;
   }
 `;
 
@@ -168,8 +188,38 @@ function Slider({ data, detail, kind }: ISlider) {
                     bgphoto={makeImagePath(content.backdrop_path, "w400")}
                   >
                     <Info variants={infoVariants}>
-                      {(content.title && <h4>{content.title}</h4>) ||
-                        (content.name && <h4>{content.name}</h4>)}
+                      {(content.title && (
+                        <TitleContainer>
+                          <h4>{content.title}</h4>
+                          <Rated>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            {content.vote_average}
+                          </Rated>
+                        </TitleContainer>
+                      )) ||
+                        (content.name && (
+                          <TitleContainer>
+                            <h4>{content.name}</h4>
+                            <Rated>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                              <span>{content.vote_average}</span>
+                            </Rated>
+                          </TitleContainer>
+                        ))}
                     </Info>
                   </Box>
                 ))}

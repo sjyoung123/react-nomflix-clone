@@ -2,13 +2,20 @@ const API_KEY = "97cedad43bd4ca832c9ecd9de8a27f3c";
 
 const BASE_URL = "https://api.themoviedb.org";
 
-interface IData {
+export interface IData {
   id: number;
   backdrop_path: string;
   poster_path: string;
   title?: string;
   name?: string;
   overview: string;
+  genres?: IGenre[];
+  vote_average?: number;
+}
+
+interface IGenre {
+  id: number;
+  name: string;
 }
 
 export interface IGetDatas {
@@ -85,5 +92,19 @@ export const searchTv = async (keyword: string | null) => {
     await fetch(
       `${BASE_URL}/3/search/tv?api_key=${API_KEY}&language=ko&page=1&query=${keyword}&include_adult=false`
     )
+  ).json();
+};
+
+//genre
+
+export const genreMovie = async (id: string | null) => {
+  return await (
+    await fetch(`${BASE_URL}/3/movie/${id}?api_key=${API_KEY}&language=ko`)
+  ).json();
+};
+
+export const genreTv = async (id: string | null) => {
+  return await (
+    await fetch(`${BASE_URL}/3/tv/${id}?api_key=${API_KEY}&language=ko`)
   ).json();
 };

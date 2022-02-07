@@ -45,16 +45,17 @@ function Home() {
         ) : (
           <>
             <MainImg data={nowPlaying} />
-            <Slider data={nowPlaying} kind="NOW PLAYING" />
+            <Slider data={nowPlaying} kind="상영중인 영화" />
 
-            <Slider data={topRated} kind="TOP RATED" />
+            <Slider data={topRated} kind="평점 높은 순" />
 
-            <Slider data={upcoming} kind="UPCOMING" />
+            <Slider data={upcoming} kind="개봉 예정" />
+
             <Detail
               data={
-                kind === "NOW PLAYING"
+                kind === "상영중인 영화"
                   ? nowPlaying
-                  : kind === "TOP RATED"
+                  : kind === "평점 높은 순"
                   ? topRated
                   : upcoming
               }

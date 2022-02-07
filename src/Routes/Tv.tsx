@@ -34,14 +34,14 @@ function Tv() {
         ) : (
           <>
             <MainImg data={popular} />
-            <Slider data={popular} detail="tv" kind="POPULAR" />
-            <Slider data={airToday} detail="tv" kind="AIRING TODAY" />
-            <Slider data={rated} detail="tv" kind="TOP RATED" />
+            <Slider data={popular} detail="tv" kind="인기 TV 쇼" />
+            <Slider data={airToday} detail="tv" kind="방영 중인 프로그램" />
+            <Slider data={rated} detail="tv" kind="평점 높은 순" />
             <Detail
               data={
-                kind === "POPULAR"
+                kind === "인기 TV 쇼"
                   ? popular
-                  : kind === "AIRING TODAY"
+                  : kind === "방영 중인 프로그램"
                   ? airToday
                   : rated
               }

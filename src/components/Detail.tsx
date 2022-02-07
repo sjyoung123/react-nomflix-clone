@@ -4,10 +4,12 @@ import {
   MotionValue,
   useViewportScroll,
 } from "framer-motion";
+import { useQuery } from "react-query";
 import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { IGetDatas } from "../api";
+import { genreMovie, genreTv, IData, IGetDatas } from "../api";
 import { makeImagePath } from "../utility";
+import Loading from "./Loading";
 
 //styled-components
 const Overlay = styled(motion.div)`
@@ -52,6 +54,14 @@ const DetailOverview = styled.p`
   line-height: 150%;
 `;
 
+const Genres = styled.div`
+  padding: 10px;
+`;
+
+const Genre = styled.span`
+  margin-right: 5px;
+`;
+
 //interface
 interface IDetail {
   data?: IGetDatas;
@@ -71,6 +81,17 @@ function Detail({ data, detail }: IDetail) {
   const clickedDetail =
     detailMatch?.params.id &&
     data?.results.find((detail) => String(detail.id) === detailMatch.params.id);
+
+  const { data: movieGenre, isLoading: movieLoading } = useQuery<IData>(
+    ["movie", "genre"],
+    () => genreMovie(detailMatch?.params.id + "")
+  );
+  const { data: tvGenre, isLoading: tvLoading } = useQuery<IData>(
+    ["tv", "genre"],
+    () => genreTv(detailMatch?.params.id + "")
+  );
+  let isLoading = movieLoading || tvLoading;
+  let genres = detail === "tv" ? tvGenre : movieGenre;
 
   return (
     <>
@@ -100,6 +121,16 @@ function Detail({ data, detail }: IDetail) {
                       <DetailTitle>{clickedDetail.name}</DetailTitle>
                     ))}
                   <DetailOverview>{clickedDetail.overview}</DetailOverview>
+                  {isLoading ? (
+                    <Loading />
+                  ) : (
+                    <Genres>
+                      장르:
+                      {genres?.genres?.map((genre, index) => (
+                        <Genre key={index}>{genre?.name}</Genre>
+                      ))}
+                    </Genres>
+                  )}
                 </>
               )}
             </DetailContainer>
